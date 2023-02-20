@@ -4970,3 +4970,121 @@ Processing by PostsController#show as HTML
 Completed 200 OK in 21ms (Views: 16.6ms | ActiveRecord: 0.7ms | Allocations: 5764)
 
 
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1999073259241716420)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (28.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddStatusToPosts (20230220191405)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (46.3ms)[0m  [1m[35mALTER TABLE "posts" ADD "status" character varying[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230220191405"]]
+  [1m[36mTRANSACTION (37.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddStatusToComments (20230220191435)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "comments" ADD "status" character varying[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230220191435"]]
+  [1m[36mTRANSACTION (80.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (47.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(1999073259241716420)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1999073259241716420)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(1999073259241716420)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mComment Update All (96.5ms)[0m  [1m[33mUPDATE "comments" SET "status" = $1[0m  [["status", "public"]]
+  [1m[36mPost Update All (323.2ms)[0m  [1m[33mUPDATE "posts" SET "status" = $1[0m  [["status", "public"]]
+Started GET "/posts" for ::1 at 2023-02-20 21:40:02 +0200
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Count (17.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."status" = $1[0m  [["status", "public"]]
+  ↳ app/models/concerns/visible.rb:12:in `public_count'
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:2
+  Rendered posts/index.html.erb within layouts/application (Duration: 126.9ms | Allocations: 12801)
+  Rendered layout layouts/application.html.erb (Duration: 127.2ms | Allocations: 12911)
+Completed 500 Internal Server Error in 139ms (ActiveRecord: 20.6ms | Allocations: 17992)
+
+
+  
+ActionView::Template::Error (undefined method `archives?' for #<Post id: 1, title: "This post about Dogs!", text: "Dogs have been around humans for many years – they...", created_at: "2023-02-16 18:11:12.602123000 +0000", updated_at: "2023-02-16 18:14:26.134114000 +0000", status: "public">
+Did you mean?  archived?):
+    1: Our blog has <%= Post.public_count %> posts and counting!
+    2: <% @posts.each do |post|%>
+    3:   <% unless post.archives? %>
+    4:     <h3><%= post.title %></h3>
+    5:     <%= link_to "Schow", post_path(post) %>|<%= link_to "New", new_post_path %>|<%= link_to "Edit", edit_post_path(post) %>
+    6:   <% end %>
+  
+app/views/posts/index.html.erb:3
+app/views/posts/index.html.erb:2
+Started GET "/posts" for ::1 at 2023-02-20 21:40:28 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."status" = $1[0m  [["status", "public"]]
+  ↳ app/models/concerns/visible.rb:12:in `public_count'
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:2
+  Rendered posts/index.html.erb within layouts/application (Duration: 7.1ms | Allocations: 1801)
+  Rendered layout layouts/application.html.erb (Duration: 169.3ms | Allocations: 27168)
+Completed 200 OK in 173ms (Views: 170.5ms | ActiveRecord: 0.7ms | Allocations: 28039)
+
+
+Started GET "/posts/1" for ::1 at 2023-02-20 21:40:32 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  ↳ app/views/posts/show.html.erb:9
+  Rendered collection of comments/_comment.html.erb [1 times] (Duration: 7.4ms | Allocations: 5945)
+  Rendered posts/show.html.erb within layouts/application (Duration: 57.3ms | Allocations: 16452)
+  Rendered layout layouts/application.html.erb (Duration: 57.6ms | Allocations: 16533)
+Completed 500 Internal Server Error in 68ms (ActiveRecord: 4.8ms | Allocations: 18419)
+
+
+  
+ActionView::Template::Error (undefined method `archives?' for #<Comment id: 4, commenter: "shdb", text: "zdbxd", post_id: 1, created_at: "2023-02-18 20:55:12.120168000 +0000", updated_at: "2023-02-18 20:55:12.120168000 +0000", status: "public">
+Did you mean?  archived?):
+    1: <% unless comment.archives? %>
+    2:   <p>
+    3:   <strong>Commenter:</strong>
+    4:   <%= comment.commenter %>
+  
+app/views/comments/_comment.html.erb:1
+app/views/posts/show.html.erb:9
+Started GET "/posts/1" for ::1 at 2023-02-20 21:40:49 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (0.7ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  ↳ app/views/posts/show.html.erb:9
+  Rendered collection of comments/_comment.html.erb [1 times] (Duration: 2.3ms | Allocations: 728)
+  Rendered comments/_form.html.erb (Duration: 57.7ms | Allocations: 3782)
+  Rendered posts/show.html.erb within layouts/application (Duration: 65.6ms | Allocations: 6113)
+  Rendered layout layouts/application.html.erb (Duration: 78.9ms | Allocations: 8948)
+Completed 200 OK in 86ms (Views: 80.8ms | ActiveRecord: 1.1ms | Allocations: 10338)
+
+
+Started GET "/posts/1" for ::1 at 2023-02-20 21:41:03 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  ↳ app/views/posts/show.html.erb:9
+  Rendered collection of comments/_comment.html.erb [1 times] (Duration: 1.0ms | Allocations: 386)
+  Rendered comments/_form.html.erb (Duration: 3.1ms | Allocations: 1873)
+  Rendered posts/show.html.erb within layouts/application (Duration: 8.7ms | Allocations: 3803)
+  Rendered layout layouts/application.html.erb (Duration: 16.0ms | Allocations: 6562)
+Completed 200 OK in 23ms (Views: 18.3ms | ActiveRecord: 0.9ms | Allocations: 7975)
+
+
