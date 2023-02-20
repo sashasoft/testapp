@@ -5088,3 +5088,64 @@ Processing by PostsController#show as HTML
 Completed 200 OK in 23ms (Views: 18.3ms | ActiveRecord: 0.9ms | Allocations: 7975)
 
 
+  [1m[36mComment Load (0.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" ORDER BY "comments"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Started GET "/posts/1" for ::1 at 2023-02-20 21:49:45 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.9ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (0.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  ↳ app/views/posts/show.html.erb:9
+  Rendered collection of comments/_comment.html.erb [1 times] (Duration: 1.8ms | Allocations: 377)
+  Rendered comments/_form.html.erb (Duration: 5.1ms | Allocations: 1858)
+  Rendered posts/show.html.erb within layouts/application (Duration: 16.0ms | Allocations: 3779)
+  Rendered layout layouts/application.html.erb (Duration: 25.0ms | Allocations: 6537)
+Completed 200 OK in 65ms (Views: 26.8ms | ActiveRecord: 18.9ms | Allocations: 10756)
+
+
+Started DELETE "/posts/1/comments/4" for ::1 at 2023-02-20 21:50:04 +0200
+Processing by CommentsController#destroy as TURBO_STREAM
+  Parameters: {"post_id"=>"1", "id"=>"4"}
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:9:in `destroy'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/comments_controller.rb:10:in `destroy'
+  [1m[36mComment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "comments" WHERE "comments"."id" = $1[0m  [["id", 4]]
+  ↳ app/controllers/comments_controller.rb:10:in `destroy'
+  [1m[36mTRANSACTION (42.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/comments_controller.rb:10:in `destroy'
+Redirected to http://localhost:3000/posts/4
+Completed 303 See Other in 53ms (ActiveRecord: 43.8ms | Allocations: 3670)
+
+
+Started GET "/posts/4" for ::1 at 2023-02-20 21:50:04 +0200
+Processing by PostsController#show as TURBO_STREAM
+  Parameters: {"id"=>"4"}
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+Completed 404 Not Found in 3ms (ActiveRecord: 0.4ms | Allocations: 951)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Post with 'id'=4):
+  
+app/controllers/posts_controller.rb:8:in `show'
+Started GET "/posts/1" for ::1 at 2023-02-20 21:50:04 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:8:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  ↳ app/views/posts/show.html.erb:9
+  Rendered collection of templates [0 times] (Duration: 0.2ms | Allocations: 26)
+  Rendered comments/_form.html.erb (Duration: 7.3ms | Allocations: 1551)
+  Rendered posts/show.html.erb within layouts/application (Duration: 14.2ms | Allocations: 2559)
+  Rendered layout layouts/application.html.erb (Duration: 19.0ms | Allocations: 5081)
+Completed 200 OK in 22ms (Views: 19.5ms | ActiveRecord: 0.6ms | Allocations: 5861)
+
+
